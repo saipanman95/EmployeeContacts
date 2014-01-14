@@ -19,4 +19,8 @@ public interface EmployeeService {
     Employee findEmployeeById(Integer id);
 
     List<Employee> findEmployeeHiredByDateRange(Date startDt, Date endDt);
+    
+    void saveOrUpdate(Employee employee);
+    
+    Map<String, String> validate(Employee employee);
 }

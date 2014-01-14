@@ -57,12 +57,12 @@ public class EmployeeController {
         String errorMsg = "An Error has occured attempting to update or save Employee information; please contact your system administrator!";
         String validationErrorMsg = "Employee information is incomplete; please check to make sure form fields are filled out!";
         
-        if (validate(employee) {
+        Map validationMap = validate(employee);
             
             model.addAttribute("message","");
-        } else {
+        
             model.addAttribute("message",validationErrorMsg);
-        }
+        
         
         return "/pages/employeeInformation"
     }

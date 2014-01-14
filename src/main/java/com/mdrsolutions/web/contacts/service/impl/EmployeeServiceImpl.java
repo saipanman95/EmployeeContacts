@@ -55,7 +55,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     
     @Overrrid
     public Map<String,String> validate(Employee employee){
-        return new HashMap<String,String>();
+        Map<String,String> validationMap = new HashMap<String,String>();
+        validationMap.put(SUCCESS_VALIDATION,SUCCESS_VALIDATION);
+        return return validationMap;
     }
 
     public void setEmployeeDAO(EmployeeDAO employeeDAO) {

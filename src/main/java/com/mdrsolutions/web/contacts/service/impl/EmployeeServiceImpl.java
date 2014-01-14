@@ -9,6 +9,8 @@ import com.mdrsolutions.web.contacts.entity.Employee;
 import com.mdrsolutions.web.contacts.service.EmployeeService;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> findEmployeeHiredByDateRange(Date startDt, Date endDt) {
         return employeeDAO.findEmployeesHiredDateRange(startDt, endDt);
+    }
+    
+    @Override
+    public void saveOrUpdate(Employee employee){
+        
+    }
+    
+    @Overrrid
+    public Map<String,String> validate(Employee employee){
+        return new HashMap<String,String>();
     }
 
     public void setEmployeeDAO(EmployeeDAO employeeDAO) {

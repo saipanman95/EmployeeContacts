@@ -12,11 +12,6 @@
     <properties>
       <property name="eclipselink.session.customizer" value="com.mdrsolutions.web.contacts.dao.utils.JPAEclipseLinkSessionCustomizer"/>
     </properties>
-    <!--    <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://www.mdrsolutions.com:3306/CONTACTS?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.password" value="password"/>
-      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.user" value="contactsUser"/>
-    </properties>-->
+    
   </persistence-unit>
 </persistence>

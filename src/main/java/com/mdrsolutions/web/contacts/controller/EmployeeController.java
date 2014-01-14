@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,8 +48,30 @@ public class EmployeeController {
         return "/pages/employeeInformation";
 
     }
+    
+    @RequestMapping(value = "/saveEmployeeDetails", method. RequestMethod.POST)
+    public String saveOrUpdate(@ModelAttribute("employee") Employee employee, ModelMap model ){
+        
+        String updateMsg = "Employee Successfully Updated!";
+        String createMsg = "Employee Successfully Created!";
+        String errorMsg = "An Error has occured attempting to update or save Employee information; please contact your system administrator!";
+        String validationErrorMsg = "Employee information is incomplete; please check to make sure form fields are filled out!";
+        
+        if (validate(employee) {
+            
+            model.addAttribute("message","");
+        } else {
+            model.addAttribute("message",validationErrorMsg);
+        }
+        
+        return "/pages/employeeInformation"
+    }
 
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
+    }
+    
+    private boolean validate(Employee employee){
+        return true;
     }
 }

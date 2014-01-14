@@ -20,7 +20,7 @@ public interface EmployeeService {
 
     List<Employee> findEmployeeHiredByDateRange(Date startDt, Date endDt);
     
-    void saveOrUpdate(Employee employee);
+    void saveOrUpdate(Employee employee); 
     
-    Map<String, String> validate(Employee employee);
+    Map<String, String> validate(Employee employee); 
 }

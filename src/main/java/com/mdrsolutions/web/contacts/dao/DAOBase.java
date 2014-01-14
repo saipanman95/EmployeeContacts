@@ -19,7 +19,7 @@ public interface DAOBase<T extends DatabaseObject> {
     List<T> findAll(T t);
     T findById(T t, int id);
     
-    void update(T t);
-    void create(T t);
+    T update(T t);
+    T create(T t);
     void delete(T t);
 }

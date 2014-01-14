@@ -16,6 +16,11 @@ import org.springframework.stereotype.Service;
 
 @Service("employeeService")
 public class EmployeeServiceImpl implements EmployeeService {
+    
+    public static final String SUCCESS_CREATE_UPDATE = "Employee has been successfully updated or created!";
+    public static fianl String ERROR_VALIDATION = "Employee information is incomplete; please check to make sure form fields are complete!";
+    public static final String SUCCESS_VALIDATION = "validated";
+    public statif final String ERROR_CREATE_UPDATE = "An error has occured attempting update or create record!";
 
     @Autowired
     private EmployeeDAO employeeDAO;

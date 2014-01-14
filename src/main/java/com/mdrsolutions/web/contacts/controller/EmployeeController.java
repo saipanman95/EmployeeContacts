@@ -59,10 +59,9 @@ public class EmployeeController {
         
         Map validationMap = validate(employee);
             
-            model.addAttribute("message","");
-        
-            model.addAttribute("message",validationErrorMsg);
-        
+        if ( validationMap.containsKey("validated") ){
+            employeeService.saveOrUpdate(employee);
+        }
         
         return "/pages/employeeInformation"
     }

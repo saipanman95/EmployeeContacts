@@ -46,8 +46,12 @@ public class DAOBaseImpl<T extends DatabaseObject> implements DAOBase<T> {
     }
 
     @Override
-    public void create(T t) {
+    public T create(T t) {
+        getEntityManager().getTransaction().begin();
         getEntityManager().persist(t);
+        getEntityManager().flush();
+        getEntityManager().getTransaction().commit();
+        return t;
     }
 
     @Override

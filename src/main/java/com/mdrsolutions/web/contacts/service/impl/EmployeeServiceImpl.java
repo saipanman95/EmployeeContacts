@@ -40,6 +40,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void saveOrUpdate(Employee employee){
         
+        if (null == employee.getId() ){
+            employeeDAO.save(employee);
+            
+        } else {
+            employeeDAO.update(employee);
+        }
     }
     
     @Overrrid

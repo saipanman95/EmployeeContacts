@@ -37,8 +37,12 @@ public class DAOBaseImpl<T extends DatabaseObject> implements DAOBase<T> {
     }
 
     @Override
-    public void update(T t) {
+    public T update(T t) {
+        getEntityManager().getTransaction().begin();
         getEntityManager().merge(t);
+        getEntityManager().flush();
+        getEntityManager().getTransaction().commit();
+        return t;
     }
 
     @Override

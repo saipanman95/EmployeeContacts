@@ -41,7 +41,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void saveOrUpdate(Employee employee){
         
         if (null == employee.getId() ){
-            employeeDAO.save(employee);
+            employeeDAO.create(employee);
             
         } else {
             employeeDAO.update(employee);

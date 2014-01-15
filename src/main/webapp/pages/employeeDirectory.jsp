@@ -14,9 +14,23 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
-        <script type="text/javascript" src="../js/jquery.jqGrid.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="../css/ui.jqgrid.css"/>
+        <script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
+        <link rel="stylesheet" href="../css/ui-lightness/jquery-ui-1.10.3.custom.min.css">
 
+        <script>
+            $(function() {
+                $("#searchFromDt").datepicker({
+                    dateFormat: 'yy-mm-dd',
+                    changeMonth: true,
+                    changeYear: true
+                });
+                $("#searchToDt").datepicker({
+                    dateFormat: 'yy-mm-dd',
+                    changeMonth: true,
+                    changeYear: true
+                });
+            });
+        </script>
     </head>
     <body>
         <h1>Employee Directory</h1>
@@ -34,7 +48,7 @@
                         </td>
                         <td>
                             <label for="searchFromDt">From Date: </label><br/>
-                            <input id="searchFromDt" name="fromDt" type="date"   />
+                            <input id="searchFromDt" name="fromDt" type="text"   />
                         </td>
                         <td>                        
                             <input id="search" name="search" type="submit" />
@@ -42,7 +56,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="searchAddress">Address: </label><br/>
+                            <label for="searchAddress">Street Address: </label><br/>
                             <input id="searchAddress" name="address" type="text"   />
                         </td>
                         <td>
@@ -51,7 +65,7 @@
                         </td>
                         <td>
                             <label for="searchToDt">To Date: </label><br/>
-                            <input id="searchToDt" name="toDt" type="date"   />
+                            <input id="searchToDt" name="toDt" type="text"   />
                         </td>
                         <td>                        
                             <input id="reset" name="reset" type="reset" />

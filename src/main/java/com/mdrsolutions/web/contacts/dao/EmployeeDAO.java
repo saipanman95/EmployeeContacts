@@ -14,4 +14,10 @@ import java.util.List;
  */
 public interface EmployeeDAO extends DAOBase{
     List<Employee> findEmployeesHiredDateRange(Date startDt, Date endDt);
+
+    List<Employee> findEmployeeByName(String lastName, String firstName);
+
+    List<Employee> findEmployeeByAddress(String address);
+
+    List<Employee> findEmployeeBetweenDates(Date fromDt, Date toDt);
 }

@@ -8,11 +8,15 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,17 +30,14 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Phone.findAll", query = "SELECT p FROM Phone p"),
     @NamedQuery(name = "Phone.findByPhoneId", query = "SELECT p FROM Phone p WHERE p.id = :phoneId"),
-    @NamedQuery(name = "Phone.findByEmployeeId", query = "SELECT p FROM Phone p WHERE p.employeeId = :employeeId"),
-    @NamedQuery(name = "Phone.findByPhoneTypeId", query = "SELECT p FROM Phone p WHERE p.phoneTypeId = :phoneTypeId"),
     @NamedQuery(name = "Phone.findByPhoneNumer", query = "SELECT p FROM Phone p WHERE p.phoneNumer = :phoneNumer")})
 public class Phone implements DatabaseObject, Serializable {
     private static final long serialVersionUID = 1L;
     
     private Integer phoneId;
-    @NotNull
-    private int employeeId;
-    @NotNull
-    private int phoneTypeId;
+    private Employee employee;
+    private Lookup phoneType;
+    
     @NotNull
     @Size(min = 1, max = 25)
     private String phoneNumer;
@@ -48,10 +49,10 @@ public class Phone implements DatabaseObject, Serializable {
         this.phoneId = phoneId;
     }
 
-    public Phone(Integer phoneId, int employeeId, int phoneTypeId, String phoneNumer) {
+    public Phone(Integer phoneId, Employee employee, Lookup phoneType, String phoneNumer) {
         this.phoneId = phoneId;
-        this.employeeId = employeeId;
-        this.phoneTypeId = phoneTypeId;
+        this.employee = employee;
+        this.phoneType = phoneType;
         this.phoneNumer = phoneNumer;
     }
 
@@ -73,24 +74,24 @@ public class Phone implements DatabaseObject, Serializable {
         this.phoneId = phoneId;
     }
 
-    @Basic(optional = false)
-    @Column(name = "EMPLOYEE_ID", nullable = false)
-    public int getEmployeeId() {
-        return employeeId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "EMPLOYEE_ID", nullable = false)
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    @Basic(optional = false)
-    @Column(name = "PHONE_TYPE_ID", nullable = false)
-    public int getPhoneTypeId() {
-        return phoneTypeId;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "PHONE_TYPE_ID", nullable = false)
+    public Lookup getPhoneType() {
+        return phoneType;
     }
 
-    public void setPhoneTypeId(int phoneTypeId) {
-        this.phoneTypeId = phoneTypeId;
+    public void setPhoneType(Lookup phoneType) {
+        this.phoneType = phoneType;
     }
 
     @Basic(optional = false)

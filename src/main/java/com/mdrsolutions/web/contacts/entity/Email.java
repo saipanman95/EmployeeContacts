@@ -8,11 +8,15 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,17 +30,14 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Email.findAll", query = "SELECT e FROM Email e"),
     @NamedQuery(name = "Email.findByEmailId", query = "SELECT e FROM Email e WHERE e.id = :emailId"),
-    @NamedQuery(name = "Email.findByEmployeeId", query = "SELECT e FROM Email e WHERE e.employeeId = :employeeId"),
-    @NamedQuery(name = "Email.findByEmailTypeId", query = "SELECT e FROM Email e WHERE e.emailTypeId = :emailTypeId"),
     @NamedQuery(name = "Email.findByEmailAddress", query = "SELECT e FROM Email e WHERE e.emailAddress = :emailAddress")})
 public class Email implements DatabaseObject, Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer emailId;
-    @NotNull
-    private int employeeId;
-    @NotNull
-    private int emailTypeId;
+    
+    private Employee employee;
+    private Lookup emailType;
     @NotNull
     @Size(min = 1, max = 150)
     private String emailAddress;
@@ -48,10 +49,10 @@ public class Email implements DatabaseObject, Serializable {
         this.emailId = emailId;
     }
 
-    public Email(Integer emailId, int employeeId, int emailTypeId, String emailAddress) {
+    public Email(Integer emailId, Employee employee, Lookup emailType, String emailAddress) {
         this.emailId = emailId;
-        this.employeeId = employeeId;
-        this.emailTypeId = emailTypeId;
+        this.employee = employee;
+        this.emailType = emailType;
         this.emailAddress = emailAddress;
     }
 
@@ -76,24 +77,24 @@ public class Email implements DatabaseObject, Serializable {
         this.emailId = emailId;
     }
 
-    @Basic(optional = false)
-    @Column(name = "EMPLOYEE_ID", nullable = false)
-    public int getEmployeeId() {
-        return employeeId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "EMPLOYEE_ID", nullable = false)
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    @Basic(optional = false)
-    @Column(name = "EMAIL_TYPE_ID", nullable = false)
-    public int getEmailTypeId() {
-        return emailTypeId;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "EMAIL_TYPE_ID", nullable = false)
+    public Lookup getEmailType() {
+        return emailType;
     }
 
-    public void setEmailTypeId(int emailTypeId) {
-        this.emailTypeId = emailTypeId;
+    public void setEmailType(Lookup emailType) {
+        this.emailType = emailType;
     }
 
     @Basic(optional = false)

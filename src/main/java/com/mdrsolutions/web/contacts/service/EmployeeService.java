@@ -7,6 +7,7 @@ package com.mdrsolutions.web.contacts.service;
 import com.mdrsolutions.web.contacts.entity.Employee;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -23,4 +24,10 @@ public interface EmployeeService {
     Employee saveOrUpdate(Employee employee); 
     
     Map<String, String> validate(Employee employee); 
+
+    List<Employee> findEmployeeByName(String lastName, String firstName);
+
+    public List<Employee> findEmployeeByAddress(String address);
+
+    public List<Employee> findEmployeeBetweenDates(String fromDt, String toDt);
 }

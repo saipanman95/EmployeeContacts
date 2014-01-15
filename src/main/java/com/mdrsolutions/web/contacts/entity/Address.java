@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,7 +28,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Address.findAll", query = "SELECT a FROM Address a"),
     @NamedQuery(name = "Address.findByAddressId", query = "SELECT a FROM Address a WHERE a.id = :addressId"),
-    @NamedQuery(name = "Address.findByAddressTypeId", query = "SELECT a FROM Address a WHERE a.addressTypeId = :addressTypeId"),
     @NamedQuery(name = "Address.findByStreet1", query = "SELECT a FROM Address a WHERE a.street1 = :street1"),
     @NamedQuery(name = "Address.findByStreet2", query = "SELECT a FROM Address a WHERE a.street2 = :street2"),
     @NamedQuery(name = "Address.findByCity", query = "SELECT a FROM Address a WHERE a.city = :city"),
@@ -38,11 +38,8 @@ public class Address implements DatabaseObject, Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer addressId;
-//    @NotNull
-//    private int employeeId;
     private Employee employee;
-    @NotNull
-    private int addressTypeId;
+    private Lookup addressType;
     @NotNull
     @Size(min = 1, max = 155)
     private String street1;
@@ -69,10 +66,10 @@ public class Address implements DatabaseObject, Serializable {
         this.addressId = addressId;
     }
 
-    public Address(Integer addressId,  int addressTypeId, String street1, String street2, String city, String stateProv, String zipcode, String country) {
+    public Address(Integer addressId,  String street1, String street2, String city, String stateProv, String zipcode, String country) {
         this.addressId = addressId;
 //        this.employeeId = employeeId;
-        this.addressTypeId = addressTypeId;
+//        this.addressTypeId = addressTypeId;
         this.street1 = street1;
         this.street2 = street2;
         this.city = city;
@@ -120,14 +117,14 @@ public class Address implements DatabaseObject, Serializable {
     }
 
     
-    @Basic(optional = false)
-    @Column(name = "ADDRESS_TYPE_ID", nullable = false)
-    public int getAddressTypeId() {
-        return addressTypeId;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ADDRESS_TYPE_ID", nullable = false)
+    public Lookup getAddressType() {
+        return addressType;
     }
 
-    public void setAddressTypeId(int addressTypeId) {
-        this.addressTypeId = addressTypeId;
+    public void setAddressType(Lookup addressType) {
+        this.addressType = addressType;
     }
 
     @Basic(optional = false)

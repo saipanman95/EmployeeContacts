@@ -19,8 +19,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.displaytag.pagination.PaginatedList;
+import org.displaytag.properties.SortOrderEnum;
 
 /**
  *
@@ -32,14 +35,16 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e"),
     @NamedQuery(name = "Employee.findByEmployeeId", query = "SELECT e FROM Employee e WHERE e.id = :employeeId"),
     @NamedQuery(name = "Employee.findByTitle", query = "SELECT e FROM Employee e WHERE e.title = :title"),
+    @NamedQuery(name = "Employee.findByAddressLike", query = "SELECT e FROM Employee e INNER JOIN e.addresses AS addr WHERE addr.street1 LIKE :street1"),
     @NamedQuery(name = "Employee.findByFirstName", query = "SELECT e FROM Employee e WHERE e.firstName = :firstName"),
+    @NamedQuery(name = "Employee.findByFirstNameLastNameLike", query = "SELECT e FROM Employee e WHERE e.firstName LIKE :firstName OR e.lastName LIKE :lastName"),
     @NamedQuery(name = "Employee.findByMiddleName", query = "SELECT e FROM Employee e WHERE e.middleName = :middleName"),
     @NamedQuery(name = "Employee.findByLastName", query = "SELECT e FROM Employee e WHERE e.lastName = :lastName"),
     @NamedQuery(name = "Employee.findBySuffix", query = "SELECT e FROM Employee e WHERE e.suffix = :suffix"),
     @NamedQuery(name = "Employee.findByHiredDateRange", query = "SELECT e FROM Employee e WHERE e.hiredDate BETWEEN :startDt AND :endDate")})
-public class Employee implements DatabaseObject, Serializable {
+public class Employee implements PaginatedList, DatabaseObject, Serializable {
+
     private static final long serialVersionUID = 1L;
-    
     private Integer employeeId;
     @Size(max = 25)
     private String title;
@@ -53,17 +58,21 @@ public class Employee implements DatabaseObject, Serializable {
     private String suffix;
     @NotNull
     private Date hiredDate;
-    
     private List<Address> addresses;
-    
+    private List<Phone> phoneNumbers;
+    private List<Email> emails;
+    private String stringifiedAddress;
+    private String stringifiedEmails;
+    private String stringifiedPhoneNumbers;
 
     public Employee() {
     }
 
     @Override
-    public String getAllNamedQuery(){
+    public String getAllNamedQuery() {
         return "Employee.findAll";
     }
+
     public Employee(Integer employeeId) {
         this.employeeId = employeeId;
     }
@@ -126,7 +135,7 @@ public class Employee implements DatabaseObject, Serializable {
         this.suffix = suffix;
     }
 
-    @Column(name="HIRED_DATE")
+    @Column(name = "HIRED_DATE")
     @Temporal(javax.persistence.TemporalType.DATE)
     public Date getHiredDate() {
         return hiredDate;
@@ -136,7 +145,7 @@ public class Employee implements DatabaseObject, Serializable {
         this.hiredDate = hiredDate;
     }
 
-    @OneToMany(mappedBy = "employee", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     public List<Address> getAddresses() {
         return addresses;
     }
@@ -144,10 +153,76 @@ public class Employee implements DatabaseObject, Serializable {
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
-    
-    
 
-    
+    @Transient
+    public String getStringifiedAddress() {
+        List<Address> addys = getAddresses();
+        StringBuilder sb = new StringBuilder();
+        if ( null == addys){
+            return "";
+        }
+        for (Address adrs : addys) {
+            sb.append(" ");
+            sb.append(adrs.getAddressType().getCode().toLowerCase()).append(": ");
+            sb.append(adrs.getStreet1()).append(" ");
+            sb.append(adrs.getStreet2()).append(" ");
+            sb.append(adrs.getCity()).append(" ");
+            sb.append(adrs.getStateProv()).append(" ");
+            sb.append(adrs.getZipcode()).append(" ");
+            sb.append(adrs.getCountry()).append(" ");
+            sb.append("<br/>");
+        }
+        return sb.toString();
+    }
+
+    @Transient
+    public String getStringifiedEmails() {
+        List<Email> ems = getEmails();
+        StringBuilder sb = new StringBuilder();
+        if ( null == ems){
+            return "";
+        }
+        for (Email em : ems) {
+            sb.append(" ");
+            sb.append(em.getEmailType().getCode().toLowerCase()).append(": ");
+            sb.append(em.getEmailAddress()).append("<br/>");
+        }
+        return sb.toString();
+    }
+
+    @Transient
+    public String getStringifiedPhoneNumbers() {
+        List<Phone> phs = getPhoneNumbers();
+        StringBuilder sb = new StringBuilder();
+        if ( null == phs){
+            return "";
+        }
+        for (Phone ph : phs) {
+            sb.append(" ");
+            sb.append(ph.getPhoneType().getCode().toLowerCase()).append(": ");
+            sb.append(ph.getPhoneNumer()).append("<br/>");
+        }
+        return sb.toString();
+    }
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    public List<Phone> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    public void setPhoneNumbers(List<Phone> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
+    }
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    public List<Email> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(List<Email> emails) {
+        this.emails = emails;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -177,5 +252,46 @@ public class Employee implements DatabaseObject, Serializable {
     public void setId(Integer id) {
         this.employeeId = id;
     }
-    
+
+    @Transient
+    @Override
+    public List getList() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Transient
+    @Override
+    public int getPageNumber() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Transient
+    @Override
+    public int getObjectsPerPage() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Transient
+    @Override
+    public int getFullListSize() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Transient
+    @Override
+    public String getSortCriterion() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Transient
+    @Override
+    public SortOrderEnum getSortDirection() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Transient
+    @Override
+    public String getSearchId() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

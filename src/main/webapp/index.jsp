@@ -8,6 +8,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <% response.sendRedirect("/Contacts/pages/welcome.html"); %>
+        <% response.sendRedirect("/Contacts/pages/employeeDirectory.html"); %>
     </body>
 </html>

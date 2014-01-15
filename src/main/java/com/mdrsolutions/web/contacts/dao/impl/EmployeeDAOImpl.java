@@ -9,6 +9,7 @@ import com.mdrsolutions.web.contacts.entity.Employee;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
@@ -18,8 +19,8 @@ public class EmployeeDAOImpl extends DAOBaseImpl implements EmployeeDAO {
     @Override
     public List<Employee> findEmployeesHiredDateRange(Date startDt, Date endDt) {
         TypedQuery<Employee> typedNamedQuery = getEntityManager().createNamedQuery("Employee.findByHiredDateRange", Employee.class);
-        typedNamedQuery.setParameter("startDt", startDt);
-        typedNamedQuery.setParameter("endDate", endDt);
+        typedNamedQuery.setParameter("startDate", startDt, TemporalType.DATE);
+        typedNamedQuery.setParameter("endDate", endDt, TemporalType.DATE);
         return typedNamedQuery.getResultList();
     }
 

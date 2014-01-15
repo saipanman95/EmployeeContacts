@@ -48,14 +48,11 @@ public class EmployeeController {
         if (id != null || lastName != null || firstName != null || address != null || toDt != null || fromDt != null) {
             if (id != null) {
                 Employee employee = employeeService.findEmployeeById(id);
-                if (employee == null) {
-                    employees.add(new Employee());
-                } else {
-                    employees.add(employee);
-                }
+                employees.add(employee);
+
             } else if (!lastName.isEmpty() || !firstName.isEmpty()) {
                 employees = employeeService.findEmployeeByName(lastName, firstName);
-            } else if ( !address.isEmpty()) {
+            } else if (!address.isEmpty()) {
                 employees = employeeService.findEmployeeByAddress(address);
             } else if (!toDt.isEmpty() && !fromDt.isEmpty()) {
                 employees = employeeService.findEmployeeBetweenDates(fromDt, toDt);
@@ -65,7 +62,7 @@ public class EmployeeController {
         } else {
             employees = employeeService.findAllEmployees();
         }
-        
+
 
         model.addAttribute(
                 "employees", employees);

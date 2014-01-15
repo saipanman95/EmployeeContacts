@@ -81,7 +81,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> findEmployeeBetweenDates(String fromDt, String toDt) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-DD");
         List<Employee> employees;
         try {
             employees = employeeDAO.findEmployeeBetweenDates(dateFormat.parse(fromDt), dateFormat.parse(toDt));

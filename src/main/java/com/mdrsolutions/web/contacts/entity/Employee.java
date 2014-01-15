@@ -41,7 +41,7 @@ import org.displaytag.properties.SortOrderEnum;
     @NamedQuery(name = "Employee.findByMiddleName", query = "SELECT e FROM Employee e WHERE e.middleName = :middleName"),
     @NamedQuery(name = "Employee.findByLastName", query = "SELECT e FROM Employee e WHERE e.lastName = :lastName"),
     @NamedQuery(name = "Employee.findBySuffix", query = "SELECT e FROM Employee e WHERE e.suffix = :suffix"),
-    @NamedQuery(name = "Employee.findByHiredDateRange", query = "SELECT e FROM Employee e WHERE e.hiredDate BETWEEN :startDt AND :endDate")})
+    @NamedQuery(name = "Employee.findByHiredDateRange", query = "SELECT e FROM Employee e WHERE e.hiredDate BETWEEN :startDate AND :endDate")})
 public class Employee implements PaginatedList, DatabaseObject, Serializable {
 
     private static final long serialVersionUID = 1L;

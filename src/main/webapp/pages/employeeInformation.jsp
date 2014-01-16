@@ -12,38 +12,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Employee Details</title>
         <script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
         <script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
         <link rel="stylesheet" href="../css/ui-lightness/jquery-ui-1.10.3.custom.min.css">
-        <style>
-            table, td {
-                border: 1px solid gray;
-            }
-            table{border-collapse: collapse;}
-            td{padding: 6px;}
-            .state-input {
-                width: 35px;
-            }
-            .zip-input{
-                width: 75px;
-            }
-            .country-input{
-                width: 55px;
-            }
-            .email-address-input{
-                width: 250px;
-            }
-            .contact-type-select {
-                width: 100px;
-            }
-            .contact-table{
-                width: 100%;
-            }
-            .contact-table tr{
-                height: 25px;
-            }
-        </style>
+        <link rel="stylesheet" href="../css/employeeInformation.css">
         <script>
             $(function() {
                 $("#hiredDate").datepicker({

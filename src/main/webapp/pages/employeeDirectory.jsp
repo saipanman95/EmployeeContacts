@@ -16,59 +16,7 @@
         <script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
         <script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
         <link rel="stylesheet" href="../css/ui-lightness/jquery-ui-1.10.3.custom.min.css">
-
-        <style>
-            body { 
-                font-family: Tahoma, Verdana, Arial, sans-serif;
-                font-size: 11px;
-            }
-            table {
-                width: 100%;
-                border: 1px solid gray;
-                border-collapse: collapse;
-                margin-top: 5px;
-            }
-            td{
-                padding-left: 3px;
-            }
-            .pagebanner{
-                float:left;
-                padding-bottom: 5px;
-            }
-            .pagelinks{
-                float: right;
-                padding-bottom: 5px;
-            }
-            thead th{
-                padding:3px;
-                background-color: #333333;
-                color: #fbcb09;
-            }
-            thead th a{
-                color: #fbcb09;
-            }
-            thead th a:visited{
-                color: #fbcb09;
-            }
-            thead th a:hover{
-                color: #ffe45a;
-            }
-            tbody, tr {
-                padding:3px;
-            }
-            table.employee-directory-table tbody tr:hover {
-                background-color:#ffe45a;
-            }
-            table.employee-directory-table tbody tr td{
-                border-right: 1px solid gray !important;
-            }
-            tr.odd{
-                background-color: #ccc;
-            }
-            .employee-button {
-                width: 100px;
-            }
-        </style>
+        <link rel="stylesheet" href="../css/employeeDirectory.css">
         <script>
             $(function() {
                 $("#searchFromDt").datepicker({

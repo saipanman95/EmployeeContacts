@@ -1,0 +1,37 @@
+/* 
+    Document   : employeeInformation
+    Created on : Jan 15, 2014, 11:00:32 PM
+    Author     : michael
+    Description:
+        Purpose of the stylesheet follows.
+*/
+body { 
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+    font-size: 11px;
+}
+table, td {
+    border: 1px solid gray;
+}
+table{border-collapse: collapse;}
+td{padding: 6px;}
+.state-input {
+    width: 35px;
+}
+.zip-input{
+    width: 75px;
+}
+.country-input{
+    width: 55px;
+}
+.email-address-input{
+    width: 250px;
+}
+.contact-type-select {
+    width: 100px;
+}
+.contact-table{
+    width: 100%;
+}
+.contact-table tr{
+    height: 25px;
+}

@@ -47,13 +47,9 @@
                         </td>
                         <td colspan="2">
 
-                            <c:if test="${oldrecord}">
                                 <form:hidden path="id" id="id" /> 
                                 ${employee.id}
-                            </c:if>
-                            <c:if test="${!oldrecord}">
-                                <form:input path="id" id="id"  />
-                            </c:if>
+                            
                         </td>
                     </tr>
                     <tr>
@@ -155,7 +151,9 @@
                                 </c:if>
                                 <tr>
                                     <td colspan="7">
-                                        <a href="employeeInformation.html?id=${employee.id}&type=address" >Click to add new Address</a>
+                                        <c:if test="${employee.id ne null}">
+                                            <a href="employeeInformation.html?id=${employee.id}&type=address" >Click to add new Address</a>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </table>                            
@@ -199,7 +197,9 @@
                                 </c:if>
                                 <tr>
                                     <td colspan="2">
-                                        <a href="employeeInformation.html?id=${employee.id}&type=email" >Click to add new Email</a>
+                                        <c:if test="${employee.id ne null}">
+                                            <a href="employeeInformation.html?id=${employee.id}&type=email" >Click to add new Email</a>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </table>     
@@ -242,7 +242,9 @@
                                 </c:if>
                                 <tr>
                                     <td colspan="2">
-                                        <a href="employeeInformation.html?id=${employee.id}&type=phone" >Click to add new Phone</a>
+                                        <c:if test="${employee.id ne null}">
+                                            <a href="employeeInformation.html?id=${employee.id}&type=phone" >Click to add new Phone</a>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </table>     

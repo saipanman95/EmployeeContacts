@@ -89,11 +89,15 @@ public class EmployeeController {
     public String getEmployeesDetails(@RequestParam Integer id,
             @RequestParam(value = "type", required = false) String type,
             ModelMap model) {
+        
         Employee empObj;
+        
         if ( id != 0){
             empObj = employeeService.findEmployeeById(id);
+            
         } else {
             empObj = new Employee(null);
+            
         }
         
         if ( null != type){
@@ -104,6 +108,7 @@ public class EmployeeController {
         //following used to determine if this is a new record for create
         if (0 != id) {
             model.addAttribute("oldrecord", true);
+            
         } else {
             model.addAttribute("oldrecord", false);
         }
@@ -119,9 +124,10 @@ public class EmployeeController {
             @RequestParam String fromDt,
             @RequestParam String toDt,
             ModelMap model) {
+        
         Employee employees = employeeService.findEmployeeById(id);
         model.addAttribute("employees", employees);
-        System.out.println(lastName);
+        
         return "/pages/employeeDirectory";
 
     }
@@ -134,10 +140,11 @@ public class EmployeeController {
         String errorMsg = "An Error has occured attempting to update or save Employee information; please contact your system administrator!";
         String validationErrorMsg = "Employee information is incomplete; please check to make sure form fields are filled out!";
         String message = null;
+        
         Map validationMap = validate(employee);
         Integer id = 0;
+        
         if (validationMap.containsKey("validated")) {
-
 
             if (null != employee.getId()) {
                 id = employee.getId();
@@ -151,10 +158,12 @@ public class EmployeeController {
                 id = emp.getId();
                 modelMap.addAttribute("employee", emp);
                 modelMap.addAttribute("message", message);
+                
             } catch (Exception ex) {
                 modelMap.addAttribute("employee", employee);
                 modelMap.addAttribute("message", errorMsg);
             }
+            
         } else {
             modelMap.addAttribute("employee", employee);
             modelMap.addAttribute("message", validationErrorMsg);

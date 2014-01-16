@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -32,13 +33,11 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Phone.findByPhoneId", query = "SELECT p FROM Phone p WHERE p.id = :phoneId"),
     @NamedQuery(name = "Phone.findByPhoneNumer", query = "SELECT p FROM Phone p WHERE p.phoneNumer = :phoneNumer")})
 public class Phone implements DatabaseObject, Serializable {
+
     private static final long serialVersionUID = 1L;
-    
-    private Integer phoneId;
+    private Integer id;
     private Employee employee;
-    private Lookup phoneType;
-    
-    @NotNull
+    private Lookup phoneType;    
     @Size(min = 1, max = 25)
     private String phoneNumer;
 
@@ -46,13 +45,13 @@ public class Phone implements DatabaseObject, Serializable {
     }
 
     public Phone(Integer phoneId) {
-        this.phoneId = phoneId;
+        this.id = phoneId;
     }
 
     public Phone(Integer phoneId, Employee employee, Lookup phoneType, String phoneNumer) {
-        this.phoneId = phoneId;
+        this.id = phoneId;
         this.employee = employee;
-        this.phoneType = phoneType;
+        this.phoneType = (phoneType == null) ? new Lookup(1) : phoneType;
         this.phoneNumer = phoneNumer;
     }
 
@@ -67,11 +66,21 @@ public class Phone implements DatabaseObject, Serializable {
     @Column(name = "PHONE_ID", nullable = false)
     @Override
     public Integer getId() {
-        return phoneId;
+        return id;
     }
 
     public void setPhoneId(Integer phoneId) {
-        this.phoneId = phoneId;
+        this.id = phoneId;
+    }
+
+    @Transient
+    public Integer getEmployeeId() {
+        if (null != employee) {
+            if (employee.getId() != null) {
+                return employee.getId();
+            }
+        }
+        return null;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -84,6 +93,16 @@ public class Phone implements DatabaseObject, Serializable {
         this.employee = employee;
     }
 
+    @Transient
+    public String getPhoneTypeCd(){
+        if ( phoneType != null){
+            if (phoneType.getCode() != null){
+                return phoneType.getCode().toLowerCase();
+            }
+        }
+        return null;
+    }
+    
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PHONE_TYPE_ID", nullable = false)
     public Lookup getPhoneType() {
@@ -107,7 +126,7 @@ public class Phone implements DatabaseObject, Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (phoneId != null ? phoneId.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -118,7 +137,7 @@ public class Phone implements DatabaseObject, Serializable {
             return false;
         }
         Phone other = (Phone) object;
-        if ((this.phoneId == null && other.phoneId != null) || (this.phoneId != null && !this.phoneId.equals(other.phoneId))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -126,11 +145,11 @@ public class Phone implements DatabaseObject, Serializable {
 
     @Override
     public String toString() {
-        return "com.mdrsolutions.web.contacts.entity.Phone[ phoneId=" + phoneId + " ]";
+        return "com.mdrsolutions.web.contacts.entity.Phone[ phoneId=" + id + " ]";
     }
 
     @Override
     public void setId(Integer id) {
-        this.phoneId = id;
+        this.id = id;
     }
 }

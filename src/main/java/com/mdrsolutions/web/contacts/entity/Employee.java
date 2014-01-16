@@ -45,7 +45,7 @@ import org.displaytag.properties.SortOrderEnum;
 public class Employee implements PaginatedList, DatabaseObject, Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Integer employeeId;
+    private Integer id;
     @Size(max = 25)
     private String title;
     @Size(max = 25)
@@ -74,7 +74,7 @@ public class Employee implements PaginatedList, DatabaseObject, Serializable {
     }
 
     public Employee(Integer employeeId) {
-        this.employeeId = employeeId;
+        this.id = employeeId;
     }
 
     @Id
@@ -83,11 +83,11 @@ public class Employee implements PaginatedList, DatabaseObject, Serializable {
     @Column(name = "EMPLOYEE_ID", nullable = false)
     @Override
     public Integer getId() {
-        return employeeId;
+        return id;
     }
 
     public void setPersonId(Integer employeeId) {
-        this.employeeId = employeeId;
+        this.id = employeeId;
     }
 
     @Column(length = 25)
@@ -158,12 +158,12 @@ public class Employee implements PaginatedList, DatabaseObject, Serializable {
     public String getStringifiedAddress() {
         List<Address> addys = getAddresses();
         StringBuilder sb = new StringBuilder();
-        if ( null == addys){
+        if (null == addys) {
             return "";
         }
         for (Address adrs : addys) {
             sb.append(" ");
-            sb.append(adrs.getAddressType().getCode().toLowerCase()).append(": ");
+            sb.append(adrs.getAddressTypeCd()).append(": ");
             sb.append(adrs.getStreet1()).append(" ");
             sb.append(adrs.getStreet2()).append(" ");
             sb.append(adrs.getCity()).append(" ");
@@ -179,12 +179,12 @@ public class Employee implements PaginatedList, DatabaseObject, Serializable {
     public String getStringifiedEmails() {
         List<Email> ems = getEmails();
         StringBuilder sb = new StringBuilder();
-        if ( null == ems){
+        if (null == ems) {
             return "";
         }
         for (Email em : ems) {
             sb.append(" ");
-            sb.append(em.getEmailType().getCode().toLowerCase()).append(": ");
+            sb.append(em.getEmailTypeCd()).append(": ");
             sb.append(em.getEmailAddress()).append("<br/>");
         }
         return sb.toString();
@@ -194,12 +194,12 @@ public class Employee implements PaginatedList, DatabaseObject, Serializable {
     public String getStringifiedPhoneNumbers() {
         List<Phone> phs = getPhoneNumbers();
         StringBuilder sb = new StringBuilder();
-        if ( null == phs){
+        if (null == phs) {
             return "";
         }
         for (Phone ph : phs) {
             sb.append(" ");
-            sb.append(ph.getPhoneType().getCode().toLowerCase()).append(": ");
+            sb.append(ph.getPhoneTypeCd()).append(": ");
             sb.append(ph.getPhoneNumer()).append("<br/>");
         }
         return sb.toString();
@@ -226,7 +226,7 @@ public class Employee implements PaginatedList, DatabaseObject, Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (employeeId != null ? employeeId.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -237,7 +237,7 @@ public class Employee implements PaginatedList, DatabaseObject, Serializable {
             return false;
         }
         Employee other = (Employee) object;
-        if ((this.employeeId == null && other.employeeId != null) || (this.employeeId != null && !this.employeeId.equals(other.employeeId))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -245,12 +245,12 @@ public class Employee implements PaginatedList, DatabaseObject, Serializable {
 
     @Override
     public String toString() {
-        return "com.mdrsolutions.web.contacts.entity.Employee[ employeeId=" + employeeId + " ]";
+        return "com.mdrsolutions.web.contacts.entity.Employee[ employeeId=" + id + " ]";
     }
 
     @Override
     public void setId(Integer id) {
-        this.employeeId = id;
+        this.id = id;
     }
 
     @Transient

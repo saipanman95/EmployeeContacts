@@ -17,6 +17,58 @@
         <script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
         <link rel="stylesheet" href="../css/ui-lightness/jquery-ui-1.10.3.custom.min.css">
 
+        <style>
+            body { 
+                font-family: Tahoma, Verdana, Arial, sans-serif;
+                font-size: 11px;
+            }
+            table {
+                width: 100%;
+                border: 1px solid gray;
+                border-collapse: collapse;
+                margin-top: 5px;
+            }
+            td{
+                padding-left: 3px;
+            }
+            .pagebanner{
+                float:left;
+                padding-bottom: 5px;
+            }
+            .pagelinks{
+                float: right;
+                padding-bottom: 5px;
+            }
+            thead th{
+                padding:3px;
+                background-color: #333333;
+                color: #fbcb09;
+            }
+            thead th a{
+                color: #fbcb09;
+            }
+            thead th a:visited{
+                color: #fbcb09;
+            }
+            thead th a:hover{
+                color: #ffe45a;
+            }
+            tbody, tr {
+                padding:3px;
+            }
+            table.employee-directory-table tbody tr:hover {
+                background-color:#ffe45a;
+            }
+            table.employee-directory-table tbody tr td{
+                border-right: 1px solid gray !important;
+            }
+            tr.odd{
+                background-color: #ccc;
+            }
+            .employee-button {
+                width: 100px;
+            }
+        </style>
         <script>
             $(function() {
                 $("#searchFromDt").datepicker({
@@ -29,14 +81,20 @@
                     changeMonth: true,
                     changeYear: true
                 });
+                $('#reset').click(function() {
+                    document.location.href = "employeeDirectoryReset.html";
+                });
             });
         </script>
     </head>
     <body>
-        <h1>Employee Directory</h1>
+        
+            <h1>Employee Directory</h1>
+            
+       
         <fieldset title="Employee Search">
             <form:form method="GET" action="employeeDirectory.html" commandName="employee">
-                <table>
+                <table class="search-table">
                     <tr>
                         <td>
                             <label for="searchId">ID: </label><br/>
@@ -51,7 +109,7 @@
                             <input id="searchFromDt" name="fromDt" type="text"   />
                         </td>
                         <td>                        
-                            <input id="search" name="search" type="submit" />
+                            <input id="search" class="employee-button" name="search" type="submit" />
                         </td>
                     </tr>
                     <tr>
@@ -68,14 +126,15 @@
                             <input id="searchToDt" name="toDt" type="text"   />
                         </td>
                         <td>                        
-                            <input id="reset" name="reset" type="reset" />
+                            <input id="reset" class="employee-button" name="reset" type="reset" />
                         </td>
                     </tr>
                 </table>
             </form:form> 
         </fieldset>
         <fieldset title="Employee Directory" >
-            <display:table name="${employees}"
+            <span style="padding:5px;margin-bottom: 5px;"><a href="employeeInformation.html?id=0">Add Employee</a></span>
+            <display:table name="${employees}" class="employee-directory-table"
                            defaultsort="1" requestURI="employeeDirectory.html"
                            pagesize="10" >
                 <display:column property="id"  paramId="id" url="/pages/employeeInformation.html"/>

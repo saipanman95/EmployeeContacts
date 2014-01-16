@@ -9,6 +9,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -37,7 +40,7 @@ import javax.validation.constraints.Size;
 public class Address implements DatabaseObject, Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Integer addressId;
+    private Integer id;
     private Employee employee;
     private Lookup addressType;
     @NotNull
@@ -62,12 +65,18 @@ public class Address implements DatabaseObject, Serializable {
     public Address() {
     }
 
-    public Address(Integer addressId) {
-        this.addressId = addressId;
+    public Address(Integer id, Employee employee, Lookup addressType) {
+        this.id = id;
+        this.employee = employee;
+        this.addressType = (addressType == null) ? new Lookup(1) : addressType;
     }
 
-    public Address(Integer addressId,  String street1, String street2, String city, String stateProv, String zipcode, String country) {
-        this.addressId = addressId;
+    public Address(Integer addressId) {
+        this.id = addressId;
+    }
+
+    public Address(Integer addressId, String street1, String street2, String city, String stateProv, String zipcode, String country) {
+        this.id = addressId;
 //        this.employeeId = employeeId;
 //        this.addressTypeId = addressTypeId;
         this.street1 = street1;
@@ -84,16 +93,17 @@ public class Address implements DatabaseObject, Serializable {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "ADDRESS_ID", nullable = false)
     @Override
     public Integer getId() {
-        return addressId;
+        return id;
     }
 
     public void setAddressId(Integer addressId) {
-        this.addressId = addressId;
+        this.id = addressId;
     }
 
 //    @Basic(optional = false)
@@ -105,6 +115,13 @@ public class Address implements DatabaseObject, Serializable {
 //    public void setEmployeeId(int employeeId) {
 //        this.employeeId = employeeId;
 //    }
+    @Transient
+    public Integer getEmployeeId() {
+        if (employee.getId() != null) {
+            return employee.getId();
+        }
+        return null;
+    }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "EMPLOYEE_ID", nullable = false)
@@ -116,7 +133,16 @@ public class Address implements DatabaseObject, Serializable {
         this.employee = employee;
     }
 
-    
+    @Transient
+    public String getAddressTypeCd() {
+        if (addressType != null) {
+            if (addressType.getCode() != null) {
+                return addressType.getCode().toLowerCase();
+            }
+        }
+        return null;
+    }
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ADDRESS_TYPE_ID", nullable = false)
     public Lookup getAddressType() {
@@ -190,7 +216,7 @@ public class Address implements DatabaseObject, Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (addressId != null ? addressId.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -201,7 +227,7 @@ public class Address implements DatabaseObject, Serializable {
             return false;
         }
         Address other = (Address) object;
-        if ((this.addressId == null && other.addressId != null) || (this.addressId != null && !this.addressId.equals(other.addressId))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -209,11 +235,11 @@ public class Address implements DatabaseObject, Serializable {
 
     @Override
     public String toString() {
-        return "com.mdrsolutions.web.contacts.entity.Address[ addressId=" + addressId + " ]";
+        return "com.mdrsolutions.web.contacts.entity.Address[ addressId=" + id + " ]";
     }
 
     @Override
     public void setId(Integer id) {
-        this.addressId = id;
+        this.id = id;
     }
 }

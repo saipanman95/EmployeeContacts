@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -34,8 +35,7 @@ import javax.validation.constraints.Size;
 public class Email implements DatabaseObject, Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Integer emailId;
-    
+    private Integer id;
     private Employee employee;
     private Lookup emailType;
     @NotNull
@@ -46,13 +46,13 @@ public class Email implements DatabaseObject, Serializable {
     }
 
     public Email(Integer emailId) {
-        this.emailId = emailId;
+        this.id = emailId;
     }
 
     public Email(Integer emailId, Employee employee, Lookup emailType, String emailAddress) {
-        this.emailId = emailId;
+        this.id = emailId;
         this.employee = employee;
-        this.emailType = emailType;
+        this.emailType = (emailType == null) ? new Lookup(1) : emailType;
         this.emailAddress = emailAddress;
     }
 
@@ -70,11 +70,21 @@ public class Email implements DatabaseObject, Serializable {
     @Basic(optional = false)
     @Column(name = "EMAIL_ID", nullable = false)
     public Integer getId() {
-        return emailId;
+        return id;
     }
 
     public void setEmailId(Integer emailId) {
-        this.emailId = emailId;
+        this.id = emailId;
+    }
+
+    @Transient
+    public Integer getEmployeeId() {
+        if (null != employee) {
+            if (employee.getId() != null) {
+                return employee.getId();
+            }
+        }
+        return null;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -85,6 +95,16 @@ public class Email implements DatabaseObject, Serializable {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    @Transient
+    public String getEmailTypeCd() {
+        if (emailType != null) {
+            if (emailType.getCode() != null) {
+                return emailType.getCode().toLowerCase();
+            }
+        }
+        return null;
     }
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -110,7 +130,7 @@ public class Email implements DatabaseObject, Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (emailId != null ? emailId.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -121,7 +141,7 @@ public class Email implements DatabaseObject, Serializable {
             return false;
         }
         Email other = (Email) object;
-        if ((this.emailId == null && other.emailId != null) || (this.emailId != null && !this.emailId.equals(other.emailId))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -129,11 +149,11 @@ public class Email implements DatabaseObject, Serializable {
 
     @Override
     public String toString() {
-        return "com.mdrsolutions.web.contacts.entity.Email[ emailId=" + emailId + " ]";
+        return "com.mdrsolutions.web.contacts.entity.Email[ emailId=" + id + " ]";
     }
 
     @Override
     public void setId(Integer id) {
-        this.emailId = id;
+        this.id = id;
     }
 }

@@ -11,9 +11,13 @@ import com.mdrsolutions.web.contacts.entity.Lookup;
 import com.mdrsolutions.web.contacts.entity.Phone;
 import com.mdrsolutions.web.contacts.model.JqGridData;
 import com.mdrsolutions.web.contacts.service.EmployeeService;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -202,6 +206,15 @@ public class EmployeeController {
                     ph.setEmployee(new Employee(employee.getId()));
                 }
             }
+        }
+        
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            if (null != employee.getHiredDateStr()){ 
+                employee.setHiredDate(df.parse(employee.getHiredDateStr()));
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return employeeService.validate(employee);
     }

@@ -5,6 +5,7 @@
 package com.mdrsolutions.web.contacts.entity;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -58,6 +59,7 @@ public class Employee implements PaginatedList, DatabaseObject, Serializable {
     private String suffix;
     @NotNull
     private Date hiredDate;
+    private String hiredDateStr;
     private List<Address> addresses;
     private List<Phone> phoneNumbers;
     private List<Email> emails;
@@ -145,6 +147,20 @@ public class Employee implements PaginatedList, DatabaseObject, Serializable {
         this.hiredDate = hiredDate;
     }
 
+    @Transient
+    public String getHiredDateStr() {
+        if (null != getHiredDate()){
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            hiredDateStr = df.format(hiredDate);
+        }
+        return hiredDateStr;
+    }
+
+    public void setHiredDateStr(String hiredDateStr) {
+        this.hiredDateStr = hiredDateStr;
+    }
+
+    
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     public List<Address> getAddresses() {
         return addresses;

@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="../css/employeeInformation.css">
         <script>
             $(function() {
-                $("#hiredDate").datepicker({
+                $("#hiredDateStr").datepicker({
                     dateFormat: 'yy-mm-dd',
                     changeMonth: true,
                     changeYear: true
@@ -93,7 +93,7 @@
                         <td>
                             <label for="hiredDate">Hired Date: </label></td>
                         <td colspan="2">
-                            <form:input id="hiredDate" path="hiredDate" />
+                            <form:input id="hiredDateStr"  path="hiredDateStr" readonly="readonly" />
                         </td>
                     </tr>
                     <tr>

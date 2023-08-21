@@ -83,7 +83,7 @@
             <artifactId>spring-core</artifactId>
             <groupId>org.springframework</groupId>
             <type>jar</type>
-            <version>5.2.22.RELEASE</version>
+            <version>5.2.24.RELEASE</version>
         </dependency>
         <dependency>
             <artifactId>spring-expression</artifactId>
